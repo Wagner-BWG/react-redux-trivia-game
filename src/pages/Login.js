@@ -26,9 +26,13 @@ class Login extends Component {
   }
 
   handleSubmitClick = () => {
-    console.log('teste');
     const { setTokenToUser } = this.props;
-    setTokenToUser();
+    const { playerEmail, playerName } = this.state;
+    const playerInfo = {
+      playerEmail,
+      playerName,
+    };
+    setTokenToUser(playerInfo);
   }
 
   validadeInputs = () => {
@@ -89,19 +93,19 @@ class Login extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setTokenToUser: () => dispatch(fetchPlayerToken()),
+  setTokenToUser: (state) => dispatch(fetchPlayerToken(state)),
 });
 
 const mapStateToProps = (state) => ({
-  playerInfo: state.player.playerToken,
+  playerInfo: state.player,
 });
 
 Login.propTypes = {
-  playerInfo: PropTypes.shape({
-    response_code: PropTypes.number,
-    response_message: PropTypes.string,
-    token: PropTypes.string,
-  }).isRequired,
+  // playerInfo: PropTypes.shape({
+  //   response_code: PropTypes.number,
+  //   response_message: PropTypes.string,
+  //   token: PropTypes.string,
+  // }).isRequired,
   setTokenToUser: PropTypes.func.isRequired,
 };
 

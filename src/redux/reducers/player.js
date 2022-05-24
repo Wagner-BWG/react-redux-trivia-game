@@ -2,8 +2,8 @@
 import { SET_USER_TOKEN } from '../actions';
 
 const INITIAL_STATE = {
-  name: '',
-  email: '',
+  playerName: '',
+  playerEmail: '',
   imageURL: '',
   playerToken: '',
 };
@@ -11,7 +11,10 @@ const INITIAL_STATE = {
 const playerReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case SET_USER_TOKEN:
-    return { ...state, playerToken: action.payload };
+    return { ...state,
+      playerToken: action.payload.playerToken,
+      playerName: action.payload.playerName,
+      playerEmail: action.payload.playerEmail };
   default:
     return state;
   }
