@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import '../App.css';
 import { fetchPlayerToken } from '../redux/actions';
+import { addUser } from '../redux/services/localStorage';
 
 class Login extends Component {
   constructor() {
@@ -25,14 +26,18 @@ class Login extends Component {
     });
   }
 
-  handleSubmitClick = () => {
-    const { setTokenToUser } = this.props;
+  handleSubmitClick = async () => {
+    const { setTokenToUser, history } = this.props;
     const { playerEmail, playerName } = this.state;
     const playerInfo = {
       playerEmail,
       playerName,
     };
-    setTokenToUser(playerInfo);
+    await setTokenToUser(playerInfo);
+    const { playerTokenInfo } = this.props;
+    // console.log(playerTokenInfo);
+    addUser(playerTokenInfo);
+    history.push('/game');
   }
 
   validadeInputs = () => {
@@ -97,7 +102,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  playerInfo: state.player,
+  playerTokenInfo: state.playerToken.token,
 });
 
 Login.propTypes = {
@@ -106,7 +111,10 @@ Login.propTypes = {
   //   response_message: PropTypes.string,
   //   token: PropTypes.string,
   // }).isRequired,
+  playerTokenInfo: PropTypes.string.isRequired,
   setTokenToUser: PropTypes.func.isRequired,
+  history: PropTypes.shape().isRequired,
+  push: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

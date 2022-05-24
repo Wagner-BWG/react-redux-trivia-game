@@ -10,7 +10,7 @@ export const fetchPlayerToken = (state) => async (dispatch) => {
   try {
     const response = await fetch('https://opentdb.com/api_token.php?command=request');
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     // dispatch(setUserToken({ ...state, ...data }));
     dispatch(setUserToken({ ...state, playerToken: data }));
   } catch (error) {
