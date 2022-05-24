@@ -5,6 +5,7 @@ import logo from '../trivia.png';
 import '../App.css';
 import { fetchPlayerToken } from '../redux/actions';
 import { addUser } from '../redux/services/localStorage';
+import Settings from '../components/Settings';
 
 class Login extends Component {
   constructor() {
@@ -12,6 +13,7 @@ class Login extends Component {
 
     this.state = {
       disabled: true,
+      showSettings: false,
       playerName: '',
       playerEmail: '',
     };
@@ -55,8 +57,13 @@ class Login extends Component {
     }
   }
 
+  settingsWindow = () => {
+    const { showSettings } = this.state;
+    this.setState({ showSettings: !showSettings });
+  }
+
   render() {
-    const { disabled } = this.state;
+    const { disabled, showSettings } = this.state;
     return (
       <div className="App">
         <header>
@@ -95,10 +102,11 @@ class Login extends Component {
         <button
           type="button"
           data-testid="btn-settings"
-          onClick={ () => console.log('config')}
+          onClick={ this.settingsWindow }
         >
           Configurações
         </button>
+        {showSettings ? <Settings /> : <p></p>}
       </div>
     );
   }
