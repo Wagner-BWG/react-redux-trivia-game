@@ -92,6 +92,13 @@ class Login extends Component {
         >
           Play
         </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => console.log('config')}
+        >
+          Configurações
+        </button>
       </div>
     );
   }
@@ -111,10 +118,15 @@ Login.propTypes = {
   //   response_message: PropTypes.string,
   //   token: PropTypes.string,
   // }).isRequired,
-  playerTokenInfo: PropTypes.string.isRequired,
+  playerTokenInfo: PropTypes.string,
   setTokenToUser: PropTypes.func.isRequired,
   history: PropTypes.shape().isRequired,
-  push: PropTypes.func.isRequired,
+  push: PropTypes.func,
 };
+
+Login.defaultProps = {
+  playerTokenInfo: '',
+  push: () => {},
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
