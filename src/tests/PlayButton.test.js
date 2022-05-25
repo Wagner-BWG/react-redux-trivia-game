@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 // import { renderWithRouterAndStore } from './helpers/TestConfigs';
@@ -15,6 +15,7 @@ import App from '../App';
 // });
 
 // const mockedToken = jest.spyOn(global, 'fetch').mockImplementation(() => apiResponse);
+// global.fetch = jest.fn(() => apiResponse);
 
 const NAME_SAMPLE = 'Chuck Norris';
 const VALID_EMAIL = 'chuck@norris.com';
@@ -32,19 +33,17 @@ describe('4.2. Testa o botão de iniciar o jogo', () => {
     const emailInput = screen.getByLabelText(/email/i);
     const playButton = screen.getByRole('button', { name: /play/i });
     expect(history.location.pathname).toBe('/');
-    // console.log(history);
 
     userEvent.type(nameInput, NAME_SAMPLE);
     userEvent.type(emailInput, VALID_EMAIL);
-    await expect(playButton).toBeEnabled();
+    expect(playButton).toBeEnabled();
     userEvent.click(playButton);
-    // screen.logTestingPlaygroundURL();
-    // console.log(history.location.pathname);
-    
-    history.push('/game');
-    const gameHeader = screen.getByRole('heading', { name: /game/i });
-    expect(gameHeader).toBeInTheDocument();
-    expect(history.location.pathname).toBe('/game');
+
+    await waitFor(() => {
+      const gameHeader = screen.getByRole('heading', { name: /game/i });
+      expect(gameHeader).toBeInTheDocument();
+      expect(history.location.pathname).toBe('/game');
+    });
   });
 
   // it('Ao clicar no botão é feita requisição à API?', async () => {
@@ -58,7 +57,8 @@ describe('4.2. Testa o botão de iniciar o jogo', () => {
   //   const playerToken = [first, ...rest];
 
   //   await waitFor(() => {
-  //     expect(store.getState().player.playerToken).toEqual(playerToken);
+  //     expect(store.getState().player.playerToken).toBe(playerToken);
   //   });
   // });
 });
+// screen.logTestingPlaygroundURL();
