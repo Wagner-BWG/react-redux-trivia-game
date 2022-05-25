@@ -18,7 +18,7 @@ class Quizz extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  token: state.playerToken.token,
+  token: state.player.playerToken.token,
 });
 
 Quizz.propTypes = {
