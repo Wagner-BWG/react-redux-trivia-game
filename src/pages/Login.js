@@ -117,7 +117,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  playerTokenInfo: state.playerToken.token,
+  playerTokenInfo: state.player.playerToken.token,
 });
 
 Login.propTypes = {
