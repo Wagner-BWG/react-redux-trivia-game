@@ -106,7 +106,7 @@ class Login extends Component {
         >
           Configurações
         </button>
-        {showSettings ? <Settings /> : <p/>}
+        {showSettings ? <Settings /> : <p />}
       </div>
     );
   }
