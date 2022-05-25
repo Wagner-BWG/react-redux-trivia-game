@@ -5,6 +5,7 @@ import logo from '../trivia.png';
 import '../App.css';
 import { fetchPlayerToken } from '../redux/actions';
 import { addUser } from '../redux/services/localStorage';
+import Settings from '../components/Settings';
 
 class Login extends Component {
   constructor() {
@@ -12,6 +13,7 @@ class Login extends Component {
 
     this.state = {
       disabled: true,
+      showSettings: false,
       playerName: '',
       playerEmail: '',
     };
@@ -55,8 +57,13 @@ class Login extends Component {
     }
   }
 
+  settingsWindow = () => {
+    const { showSettings } = this.state;
+    this.setState({ showSettings: !showSettings });
+  }
+
   render() {
-    const { disabled } = this.state;
+    const { disabled, showSettings } = this.state;
     return (
       <div className="App">
         <header>
@@ -92,6 +99,14 @@ class Login extends Component {
         >
           Play
         </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.settingsWindow }
+        >
+          Configurações
+        </button>
+        {showSettings ? <Settings /> : <p />}
       </div>
     );
   }
@@ -111,10 +126,15 @@ Login.propTypes = {
   //   response_message: PropTypes.string,
   //   token: PropTypes.string,
   // }).isRequired,
-  playerTokenInfo: PropTypes.string.isRequired,
+  playerTokenInfo: PropTypes.string,
   setTokenToUser: PropTypes.func.isRequired,
   history: PropTypes.shape().isRequired,
-  push: PropTypes.func.isRequired,
+  push: PropTypes.func,
+};
+
+Login.defaultProps = {
+  playerTokenInfo: '',
+  push: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
