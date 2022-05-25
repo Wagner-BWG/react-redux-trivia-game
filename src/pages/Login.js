@@ -106,7 +106,7 @@ class Login extends Component {
         >
           Configurações
         </button>
-        {showSettings ? <Settings /> : <p></p>}
+        {showSettings ? <Settings /> : <p/>}
       </div>
     );
   }
@@ -135,6 +135,6 @@ Login.propTypes = {
 Login.defaultProps = {
   playerTokenInfo: '',
   push: () => {},
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
