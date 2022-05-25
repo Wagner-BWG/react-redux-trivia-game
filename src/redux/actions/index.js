@@ -1,8 +1,14 @@
 export const SET_USER_TOKEN = 'SET_USER_TOKEN';
 export const SET_USER_INFO = 'SET_USER_INFO';
+export const SET_GAME = 'SET_GAME';
 
 export const setUserToken = (payload) => ({
   type: SET_USER_TOKEN,
+  payload,
+});
+
+const setGame = (payload) => ({
+  type: SET_GAME,
   payload,
 });
 
@@ -23,6 +29,7 @@ export const fetchQuestions = (token) => async (dispatch) => {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const data = await response.json();
     console.log(data);
+    dispatch(setGame({ data }));
   } catch (error) {
     console.log(error);
   }
