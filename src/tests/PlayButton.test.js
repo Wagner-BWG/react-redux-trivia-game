@@ -57,7 +57,7 @@ describe('4.2. Testa o botão de iniciar o jogo', () => {
   //   const playerToken = [first, ...rest];
 
   //   await waitFor(() => {
-  //     expect(store.getState().player.playerToken).toBe(playerToken);
+  //     expect(store.getState().player.playerToken).toEqual(playerToken);
   //   });
   // });
 });
