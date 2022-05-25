@@ -72,20 +72,24 @@ class Login extends Component {
         </header>
         <h1>Login</h1>
         <label htmlFor="playerName">
+          Nome:
           <input
             type="text"
             placeholder="Insira seu nome"
             data-testid="input-player-name"
             name="playerName"
+            id="playerName"
             onChange={ this.handleChange }
           />
         </label>
         <label htmlFor="playerEmail">
+          Email
           <input
             type="email"
             placeholder="Insira seu email"
             data-testid="input-gravatar-email"
             name="playerEmail"
+            id="playerEmail"
             onChange={ this.handleChange }
           />
         </label>
