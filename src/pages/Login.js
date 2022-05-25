@@ -72,20 +72,24 @@ class Login extends Component {
         </header>
         <h1>Login</h1>
         <label htmlFor="playerName">
+          Nome:
           <input
             type="text"
             placeholder="Insira seu nome"
             data-testid="input-player-name"
             name="playerName"
+            id="playerName"
             onChange={ this.handleChange }
           />
         </label>
         <label htmlFor="playerEmail">
+          Email
           <input
             type="email"
             placeholder="Insira seu email"
             data-testid="input-gravatar-email"
             name="playerEmail"
+            id="playerEmail"
             onChange={ this.handleChange }
           />
         </label>
@@ -117,8 +121,14 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  playerTokenInfo: state.playerToken.token,
+  playerTokenInfo: state.player.playerToken.token,
 });
+
+Login.defaultProps = {
+  playerTokenInfo: '',
+  push: () => {},
+  history: {},
+};
 
 Login.propTypes = {
   // playerInfo: PropTypes.shape({
@@ -128,13 +138,8 @@ Login.propTypes = {
   // }).isRequired,
   playerTokenInfo: PropTypes.string,
   setTokenToUser: PropTypes.func.isRequired,
-  history: PropTypes.shape().isRequired,
+  history: PropTypes.shape(),
   push: PropTypes.func,
-};
-
-Login.defaultProps = {
-  playerTokenInfo: '',
-  push: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
