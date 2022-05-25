@@ -124,6 +124,12 @@ const mapStateToProps = (state) => ({
   playerTokenInfo: state.player.playerToken.token,
 });
 
+Login.defaultProps = {
+  playerTokenInfo: '',
+  push: () => {},
+  history: {},
+};
+
 Login.propTypes = {
   // playerInfo: PropTypes.shape({
   //   response_code: PropTypes.number,
@@ -132,13 +138,8 @@ Login.propTypes = {
   // }).isRequired,
   playerTokenInfo: PropTypes.string,
   setTokenToUser: PropTypes.func.isRequired,
-  history: PropTypes.shape().isRequired,
+  history: PropTypes.shape(),
   push: PropTypes.func,
-};
-
-Login.defaultProps = {
-  playerTokenInfo: '',
-  push: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
