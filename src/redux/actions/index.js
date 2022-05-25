@@ -28,10 +28,9 @@ export const fetchQuestions = (token) => async (dispatch) => {
   try {
     const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
     const data = await response.json();
-    console.log(data);
     if (data.response_code === 0) {
-      dispatch(setGame(data.results));
-    } else console.log('TOKEN INVÁLIDO');
+      dispatch(setGame([...data.results]));
+    }
   } catch (error) {
     console.log(error);
   }

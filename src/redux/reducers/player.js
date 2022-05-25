@@ -5,7 +5,11 @@ const INITIAL_STATE = {
   playerName: '',
   playerEmail: '',
   imageURL: '',
-  playerToken: '',
+  playerToken: {
+    response_code: 3,
+    response_message: 'Deu ruim',
+    token: '',
+  },
 };
 
 const playerReducer = (state = INITIAL_STATE, action) => {
