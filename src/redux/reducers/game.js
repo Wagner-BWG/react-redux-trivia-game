@@ -1,11 +1,7 @@
 import { SET_GAME } from '../actions';
 
 const INITIAL_STATE = {
-  question1: '',
-  question2: '',
-  question3: '',
-  question4: '',
-  question5: '',
+  questions: [],
 };
 
 const gameReducer = (state = INITIAL_STATE, action) => {

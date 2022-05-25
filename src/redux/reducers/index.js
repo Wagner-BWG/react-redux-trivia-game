@@ -4,7 +4,7 @@ import gameReducer from './game';
 
 const rootReducer = combineReducers({
   player: playerReducer,
-  game: gameReducer,
+  questions: gameReducer,
 });
 
 export default rootReducer;
