@@ -8,9 +8,9 @@ class Game extends Component {
   async componentDidMount() {
     const { dispatch, token } = this.props;
     await dispatch(fetchQuestions(token));
-    const { playerToken, history } = this.props;
-    const { response_code: responseCode } = playerToken;
-    console.log(responseCode);
+    const { questions, history } = this.props;
+    const { response_code: responseCode } = questions;
+    console.log(`O response code é ${responseCode}`);
     const MAGIC_NUMBER = 3;
     if (responseCode === MAGIC_NUMBER) {
       history.push('/');
@@ -19,11 +19,14 @@ class Game extends Component {
 
   render() {
     const { questions } = this.props;
-    const activeQuestion = questions[0];
-    console.log(activeQuestion);
     let question = (<p>Carregando Questão</p>);
+    console.log(questions);
+    if (questions.results !== undefined && questions.results.length > 0) {
+      console.log('isso rodou');
+      const activeQuestion = questions.results[0];
+      console.log(activeQuestion);
 
-    if (activeQuestion !== undefined) {
+      // if (activeQuestion !== undefined) {
       const wrongAnswers = activeQuestion.incorrect_answers.map((answer, index) => (
         <p key={ answer } data-testid={ `wrong-answer-${index}` }>
           <button type="button">
@@ -87,12 +90,12 @@ const mapStateToProps = (state) => ({
 });
 
 Game.propTypes = {
-  playerToken: PropTypes.objectOf(PropTypes.any).isRequired,
+  // playerToken: PropTypes.objectOf(PropTypes.any).isRequired,
   history: PropTypes.shape(),
   push: PropTypes.func,
   dispatch: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
-  questions: PropTypes.arrayOf(PropTypes.object),
+  questions: PropTypes.objectOf(PropTypes.any),
 };
 
 Game.defaultProps = {
