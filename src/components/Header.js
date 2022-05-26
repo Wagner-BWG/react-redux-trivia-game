@@ -13,11 +13,12 @@ class Header extends Component {
   }
 
   render() {
-    const { playerNameInfo, playerURLInfo, playerEmailInfo } = this.props;
+    // const { playerNameInfo, playerURLInfo, playerEmailInfo } = this.props;
+    const { playerNameInfo, playerEmailInfo } = this.props;
     const { score } = this.state;
-    console.log(playerNameInfo, playerURLInfo, playerEmailInfo);
+    // console.log(playerNameInfo, playerURLInfo, playerEmailInfo);
     const hashUserEmail = md5(playerEmailInfo).toString();
-    console.log(hashUserEmail);
+    // console.log(hashUserEmail);
     return (
       <div>
         <header>
@@ -42,7 +43,7 @@ const mapStateToProps = (state) => ({
 
 Header.propTypes = {
   playerNameInfo: PropTypes.string.isRequired,
-  playerURLInfo: PropTypes.string.isRequired,
+  // playerURLInfo: PropTypes.string.isRequired,
   playerEmailInfo: PropTypes.string.isRequired,
 };
 
