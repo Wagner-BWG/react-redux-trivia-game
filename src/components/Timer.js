@@ -9,6 +9,7 @@ class Timer extends Component {
 
     this.state = {
       timerCounter: 30,
+      // timerCounter: 2,
       disabled: false,
     };
   }
@@ -20,6 +21,7 @@ class Timer extends Component {
   setTimerCountDown = () => {
     const ONE_SECOND = 1000;
     const WHOLE_INTERVAL = 30000;
+    // const WHOLE_INTERVAL = 2000;
     this.timerCountdown = setInterval(() => {
       console.log('interval');
       this.setState((prevState) => ({

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../redux/actions';
-import { renderQuestion } from '../game_mechanics/gameMechanics';
+import Timer from '../components/Timer';
+import Quizz from './Quizz';
 
 class Game extends Component {
   async componentDidMount() {
@@ -19,20 +20,14 @@ class Game extends Component {
   }
 
   render() {
-    const { questions } = this.props;
-    let question = (<p>Carregando Questão</p>);
-    // console.log(questions);
-    if (questions.results !== undefined && questions.results.length > 0) {
-      question = renderQuestion(questions);
-    }
-
     return (
       <div>
         <Header />
         <h1>Game</h1>
+        <Timer />
         <div>
           <p>Quizz</p>
-          {question}
+          <Quizz />
         </div>
       </div>
     );
