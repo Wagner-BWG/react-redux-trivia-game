@@ -1,0 +1,23 @@
+.answer-btn {
+  width: 35%;
+}
+
+.correct-answer {
+  border: 3px solid rgb(6, 240, 15);
+  width: 35%;
+}
+
+.wrong-answer {
+  border: 3px solid red;
+  width: 35%;
+}
+
+.clicked-correct {
+  background-color: rgb(188, 227, 189);
+  width: 35%;
+}
+
+.clicked-wrong {
+  background-color: rgb(234, 179, 179);
+  width: 35%;
+}
