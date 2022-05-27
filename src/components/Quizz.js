@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Quizz.css';
+import { setSendAssertionsToFeedbackPage } from '../redux/actions';
 
 class Quizz extends Component {
   constructor() {
@@ -11,6 +12,7 @@ class Quizz extends Component {
       selectedAnAnswer: false,
       question: <p>Carregando Questão</p>,
       // answers: [],
+      assertions: 0,
     };
   }
 
@@ -33,17 +35,29 @@ class Quizz extends Component {
 
   nextQuestion = () => {
     const { questionNumber } = this.state;
+    console.log(questionNumber);
     let currentQuestion = questionNumber;
-    this.setState(
-      { questionNumber: (currentQuestion += 1), selectedAnAnswer: false },
-      () => this.renderQuestion(),
-    );
+    this.setState({
+      questionNumber: (currentQuestion += 1),
+      selectedAnAnswer: false,
+    }, () => {
+      const LIMIT_OF_QUESTIONS_INDEX = 4;
+      if (questionNumber >= LIMIT_OF_QUESTIONS_INDEX) {
+        const { history, setSendAssertions } = this.props;
+        const { assertions } = this.state;
+        setSendAssertions(assertions);
+        history.push('/feedback');
+        // esse return é pra parar de chamar o resto da função abaixo, já que não vai ter mais questões...pq tava dando erro de pedir caracteristicas de questões que não são existentes.
+        return;
+      }
+      this.renderQuestion();
+    });
   };
 
   renderQuestion = () => {
     const { questionNumber } = this.state;
     const { questions, disabled } = this.props;
-    // console.log('renderQuestion');
+    // console.log(questions);
 
     const answerBorders = () => {
       const anwersButtons = document.querySelectorAll('.answer-btn');
@@ -63,8 +77,11 @@ class Quizz extends Component {
       this.setState({ selectedAnAnswer: true }, () => {
         target.classList.toggle('clicked-correct');
         answerBorders();
+        this.setState((prevState) => ({
+          assertions: prevState.assertions + 1,
+        }));
       });
-      // questionNumber += 1;
+      // questionNumber += 1;a
     };
 
     const wrongAnswer = ({ target }) => {
@@ -143,7 +160,7 @@ class Quizz extends Component {
   }
 
   render() {
-    const { question, selectedAnAnswer } = this.state;
+    const { question, selectedAnAnswer, assertions } = this.state;
 
     const nextBtn = (
       <button type="button" onClick={ this.nextQuestion } data-testid="btn-next">
@@ -153,6 +170,11 @@ class Quizz extends Component {
 
     return (
       <div>
+        <h2 data-testid="header-score">
+          Acertos:
+          { ' ' }
+          { assertions }
+        </h2>
         { question }
         { selectedAnAnswer ? nextBtn : <p /> }
       </div>
@@ -165,14 +187,23 @@ const mapStateToProps = (state) => ({
   disabled: state.timer.disabled,
 });
 
+const mapDispatchToProps = (dispatch) => ({
+  setSendAssertions: (state) => dispatch(setSendAssertionsToFeedbackPage(state)),
+});
+
 Quizz.propTypes = {
+  history: PropTypes.shape(),
+  push: PropTypes.func,
   questions: PropTypes.objectOf(PropTypes.any),
   disabled: PropTypes.bool,
+  setSendAssertions: PropTypes.func.isRequired,
 };
 
 Quizz.defaultProps = {
+  push: () => {},
+  history: {},
   questions: [],
   disabled: false,
 };
 
-export default connect(mapStateToProps)(Quizz);
+export default connect(mapStateToProps, mapDispatchToProps)(Quizz);
