@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import './Quizz.css';
 
 class Quizz extends Component {
   constructor() {
@@ -14,19 +15,19 @@ class Quizz extends Component {
   }
 
   componentDidMount() {
-    const { questions } = this.props;
-    console.log(questions);
+    // const { questions } = this.props;
+    // console.log(questions);
   }
 
   componentDidUpdate(prevProps) {
     const { questions, disabled } = this.props;
     if (questions !== prevProps.questions) {
       this.renderQuestion();
-      console.log('embaralhar');
+      // console.log('embaralhar');
     }
     if (disabled !== prevProps.disabled) {
       this.renderQuestion();
-      console.log('NÃO embaralhar');
+      // console.log('NÃO embaralhar');
     }
   }
 
@@ -42,28 +43,48 @@ class Quizz extends Component {
   renderQuestion = () => {
     const { questionNumber } = this.state;
     const { questions, disabled } = this.props;
-    console.log('renderQuestion');
+    // console.log('renderQuestion');
 
-    const rightAnswer = () => {
-      console.log('resposta certa');
-      this.setState({ selectedAnAnswer: true });
+    const answerBorders = () => {
+      const anwersButtons = document.querySelectorAll('.answer-btn');
+      anwersButtons.forEach((button) => {
+        // console.log(button);
+        if (button.classList.contains('co-an')) {
+          button.classList.add('correct-answer');
+        }
+        if (button.classList.contains('wr-an')) {
+          button.classList.add('wrong-answer');
+        }
+      });
+    };
+
+    const rightAnswer = ({ target }) => {
+      // console.log('resposta certa');
+      this.setState({ selectedAnAnswer: true }, () => {
+        target.classList.toggle('clicked-correct');
+        answerBorders();
+      });
       // questionNumber += 1;
     };
 
-    const wrongAnswer = () => {
-      console.log('resposta errada');
-      this.setState({ selectedAnAnswer: true });
+    const wrongAnswer = ({ target }) => {
+      // console.log('resposta errada');
+      this.setState({ selectedAnAnswer: true }, () => {
+        target.classList.toggle('clicked-wrong');
+        answerBorders();
+      });
       // questionNumber += 1;
     };
 
     if (questions.results !== undefined && questions.results.length > 0) {
-      console.log('isso rodou');
+      // console.log('isso rodou');
       const activeQuestion = questions.results[questionNumber];
-      console.log(activeQuestion);
+      // console.log(activeQuestion);
       const wrongAnswers = activeQuestion.incorrect_answers.map((answer, index) => (
         // <p >
         <button
           type="button"
+          className="answer-btn wr-an"
           onClick={ wrongAnswer }
           data-testid={ `wrong-answer-${index}` }
           key={ answer }
@@ -79,6 +100,7 @@ class Quizz extends Component {
         // <p>
         <button
           type="button"
+          className="answer-btn co-an"
           onClick={ rightAnswer }
           key={ activeQuestion.correct_answer }
           data-testid="correct-answer"
