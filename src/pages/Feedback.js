@@ -21,6 +21,11 @@ class Feedback extends Component {
     history.push('/ranking');
   }
 
+  redirectToHomePage = () => {
+    const { history } = this.props;
+    history.push('/');
+  }
+
   showFeedbackMessage = () => {
     const { numberAssertions } = this.props;
     const CHECK_QUANTITY_CORRECT_ANSWERS = 3;
@@ -57,6 +62,13 @@ class Feedback extends Component {
           data-testid="btn-ranking"
         >
           Ranking
+        </button>
+        <button
+          type="button"
+          onClick={ this.redirectToHomePage }
+          data-testid="btn-play-again"
+        >
+          Play Again
         </button>
       </div>
     );
