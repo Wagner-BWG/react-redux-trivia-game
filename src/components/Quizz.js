@@ -170,7 +170,7 @@ class Quizz extends Component {
 
     return (
       <div>
-        <h2 data-testid="header-score">
+        <h2>
           Acertos:
           { ' ' }
           { assertions }

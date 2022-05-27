@@ -16,6 +16,11 @@ class Feedback extends Component {
     this.showFeedbackMessage();
   }
 
+  redirectToRankingPage = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
+
   showFeedbackMessage = () => {
     const { numberAssertions } = this.props;
     const CHECK_QUANTITY_CORRECT_ANSWERS = 3;
@@ -38,7 +43,7 @@ class Feedback extends Component {
       <div>
         <Header />
         <h1>Feedback</h1>
-        <h2 data-testid="header-score">
+        <h2>
           Você obteve
           {' '}
           {numberAssertions}
@@ -46,6 +51,13 @@ class Feedback extends Component {
           acertos!
         </h2>
         <h2 data-testid="feedback-text">{feedbackMessage}</h2>
+        <button
+          type="button"
+          onClick={ this.redirectToRankingPage }
+          data-testid="btn-ranking"
+        >
+          Ranking
+        </button>
       </div>
     );
   }
@@ -57,10 +69,14 @@ const mapStateToProps = (state) => ({
 
 Feedback.defaultProps = {
   numberAssertions: 0,
+  push: () => {},
+  history: {},
 };
 
 Feedback.propTypes = {
   numberAssertions: PropTypes.number,
+  history: PropTypes.shape(),
+  push: PropTypes.func,
 };
 
 export default connect(mapStateToProps)(Feedback);
