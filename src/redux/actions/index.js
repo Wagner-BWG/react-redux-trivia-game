@@ -1,6 +1,7 @@
 export const SET_USER_TOKEN = 'SET_USER_TOKEN';
 export const SET_USER_INFO = 'SET_USER_INFO';
 export const SET_GAME = 'SET_GAME';
+export const SET_TIMER = 'SET_TIMER';
 
 export const setUserToken = (payload) => ({
   type: SET_USER_TOKEN,
@@ -9,6 +10,11 @@ export const setUserToken = (payload) => ({
 
 const setGame = (payload) => ({
   type: SET_GAME,
+  payload,
+});
+
+export const setTimer = (payload) => ({
+  type: SET_TIMER,
   payload,
 });
 

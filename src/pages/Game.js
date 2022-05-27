@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../redux/actions';
+import Timer from '../components/Timer';
+import Quizz from './Quizz';
 
 class Game extends Component {
   async componentDidMount() {
@@ -10,7 +12,7 @@ class Game extends Component {
     await dispatch(fetchQuestions(token));
     const { questions, history } = this.props;
     const { response_code: responseCode } = questions;
-    console.log(`O response code é ${responseCode}`);
+    // console.log(`O response code é ${responseCode}`);
     const MAGIC_NUMBER = 3;
     if (responseCode === MAGIC_NUMBER) {
       history.push('/');
@@ -18,65 +20,14 @@ class Game extends Component {
   }
 
   render() {
-    const { questions } = this.props;
-    let question = (<p>Carregando Questão</p>);
-    console.log(questions);
-    if (questions.results !== undefined && questions.results.length > 0) {
-      console.log('isso rodou');
-      const activeQuestion = questions.results[0];
-      console.log(activeQuestion);
-
-      // if (activeQuestion !== undefined) {
-      const wrongAnswers = activeQuestion.incorrect_answers.map((answer, index) => (
-        <p key={ answer } data-testid={ `wrong-answer-${index}` }>
-          <button type="button">
-            {answer}
-          </button>
-          <br />
-        </p>
-      ));
-
-      const correctAnswer = (
-        <p key={ activeQuestion.correct_answer } data-testid="correct-answer">
-          <button type="button">
-            {activeQuestion.correct_answer}
-          </button>
-          <br />
-        </p>
-      );
-
-      const answersList = [
-        ...wrongAnswers,
-        correctAnswer,
-      ];
-
-      const MAGIC_NUMBER = 0.5;
-      answersList.sort(() => Math.random() - MAGIC_NUMBER);
-
-      question = (
-        <div>
-          <p>Questão</p>
-          <p data-testid="question-category">
-            {`Categoria: ${activeQuestion.category}`}
-          </p>
-          <p data-testid="question-text">
-            {`Pergunta: ${activeQuestion.question}`}
-          </p>
-          <div data-testid="answer-options">
-            <p>Respostas:</p>
-            {answersList}
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div>
         <Header />
         <h1>Game</h1>
+        <Timer />
         <div>
           <p>Quizz</p>
-          {question}
+          <Quizz />
         </div>
       </div>
     );
