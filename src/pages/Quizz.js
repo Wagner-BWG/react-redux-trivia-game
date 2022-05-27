@@ -47,7 +47,7 @@ class Quizz extends Component {
 
     const answerBorders = () => {
       const anwersButtons = document.querySelectorAll('.answer-btn');
-      anwersButtons.forEach(button => {
+      anwersButtons.forEach((button) => {
         // console.log(button);
         if (button.classList.contains('co-an')) {
           button.classList.add('correct-answer');
