@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setTimer } from '../redux/actions';
+import { setTimer, setCountdown } from '../redux/actions';
 
 class Timer extends Component {
   constructor() {
     super();
 
     this.state = {
-      timerCounter: 30,
+      // timerCounter: 30,
       // timerCounter: 2,
       disabled: false,
     };
+    this.timerCountdown = this.timerCountdown.bind(this);
   }
 
   componentDidMount() {
@@ -19,18 +20,22 @@ class Timer extends Component {
   }
 
   setTimerCountDown = () => {
+    const { countdown } = this.props;
     const ONE_SECOND = 1000;
     const WHOLE_INTERVAL = 30000;
     // const WHOLE_INTERVAL = 2000;
-    this.timerCountdown = setInterval(() => {
+    function timerCountdown() {
+      setInterval(() => {
       console.log('interval');
-      this.setState((prevState) => ({
-        timerCounter: prevState.timerCounter - 1,
-      }));
-    }, ONE_SECOND);
+      // this.setState((prevState) => ({
+      //   timerCounter: prevState.timerCounter - 1,
+      // }));
+      setCountdown(countdown - 1);
+      }, ONE_SECOND);
+    }
 
     setTimeout(() => {
-      clearInterval(this.timerCountdown);
+      clearInterval(timerCountdown);
       this.setState({
         disabled: true,
       }, () => {
@@ -43,21 +48,30 @@ class Timer extends Component {
   }
 
   render() {
-    const { timerCounter } = this.state;
+    // const { timerCounter } = this.state;
+    const { countdown } = this.props;
+
     return (
       <div>
-        <h2>{timerCounter}</h2>
+        <h2>{countdown}</h2>
       </div>
     );
   }
 }
 
+const mapStateToProps = (state) => ({
+  countdown: state.timer.countdown,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setDisabledBtn: (state) => dispatch(setTimer(state)),
+  setCountdown: (state) => dispatch(setCountdown(state)),
 });
 
 Timer.propTypes = {
   setDisabledBtn: PropTypes.func.isRequired,
+  countdown: PropTypes.number.isRequired,
+  setCountdown: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Timer);
+export default connect(mapStateToProps, mapDispatchToProps)(Timer);

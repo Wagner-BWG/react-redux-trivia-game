@@ -4,6 +4,7 @@ export const SET_GAME = 'SET_GAME';
 export const SET_TIMER = 'SET_TIMER';
 export const NEXT_QUESTION = 'NEXT_QUESTION';
 export const SEND_ASSERTIONS = 'SEND_ASSETIONS';
+export const SET_COUNTDOWN = 'SET_COUNTDOWN';
 
 export const setUserToken = (payload) => ({
   type: SET_USER_TOKEN,
@@ -17,6 +18,11 @@ const setGame = (payload) => ({
 
 export const setTimer = (payload) => ({
   type: SET_TIMER,
+  payload,
+});
+
+export const setCountdown = (payload) => ({
+  type: SET_COUNTDOWN,
   payload,
 });
 
