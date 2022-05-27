@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Quizz.css';
-import { setSendAssertionsToFeedbackPage } from '../redux/actions';
+import { setSendAssertionsToFeedbackPage, setTimer } from '../redux/actions';
 
 class Quizz extends Component {
   constructor() {
@@ -34,9 +34,11 @@ class Quizz extends Component {
   }
 
   nextQuestion = () => {
+    const { resetTimer } = this.props;
     const { questionNumber } = this.state;
     console.log(questionNumber);
     let currentQuestion = questionNumber;
+    resetTimer();
     this.setState({
       questionNumber: (currentQuestion += 1),
       selectedAnAnswer: false,
@@ -155,7 +157,9 @@ class Quizz extends Component {
           </div>
         </div>
       );
-      this.setState({ question: renderedQuestion });
+      if (disabled) {
+        this.setState({ question: renderedQuestion, selectedAnAnswer: true });
+      } else this.setState({ question: renderedQuestion });
     }
   }
 
@@ -189,6 +193,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setSendAssertions: (state) => dispatch(setSendAssertionsToFeedbackPage(state)),
+  resetTimer: () => dispatch(setTimer(false)),
 });
 
 Quizz.propTypes = {
@@ -197,6 +202,7 @@ Quizz.propTypes = {
   questions: PropTypes.objectOf(PropTypes.any),
   disabled: PropTypes.bool,
   setSendAssertions: PropTypes.func.isRequired,
+  resetTimer: PropTypes.func.isRequired,
 };
 
 Quizz.defaultProps = {
