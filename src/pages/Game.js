@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import { fetchQuestions } from '../redux/actions';
 import Timer from '../components/Timer';
-import Quizz from './Quizz';
+import Quizz from '../components/Quizz';
 
 class Game extends Component {
   async componentDidMount() {
@@ -20,6 +20,7 @@ class Game extends Component {
   }
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <Header />
@@ -27,7 +28,7 @@ class Game extends Component {
         <Timer />
         <div>
           <p>Quizz</p>
-          <Quizz />
+          <Quizz history={ history } />
         </div>
       </div>
     );
@@ -38,6 +39,7 @@ const mapStateToProps = (state) => ({
   playerToken: state.player.playerToken,
   token: state.player.playerToken.token,
   questions: state.questions,
+  // maxQuestionsAnswered: state.finishGame,
 });
 
 Game.propTypes = {
@@ -47,12 +49,14 @@ Game.propTypes = {
   dispatch: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
   questions: PropTypes.objectOf(PropTypes.any),
+  // maxQuestionsAnswered: PropTypes.bool,
 };
 
 Game.defaultProps = {
   push: () => {},
   history: {},
   questions: [],
+  // maxQuestionsAnswered: false,
 };
 
 export default connect(mapStateToProps)(Game);
