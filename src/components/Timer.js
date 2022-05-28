@@ -28,11 +28,11 @@ class Timer extends Component {
         timerCounter: prevState.timerCounter - 1,
       }), () => {
         const { timerCounter } = this.state;
-        const { setCountdown } = this.props;
+        const { sendSetCountdown } = this.props;
         // console.log(timerCounter);
-        setCountdown(timerCounter)
+        sendSetCountdown(timerCounter);
       });
-      }, ONE_SECOND);
+    }, ONE_SECOND);
 
     setTimeout(() => {
       clearInterval(this.timerCountdown);
@@ -60,12 +60,12 @@ class Timer extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   setDisabledBtn: (state) => dispatch(setTimer(state)),
-  setCountdown: (state) => dispatch(setCountdown(state)),
+  sendSetCountdown: (state) => dispatch(setCountdown(state)),
 });
 
 Timer.propTypes = {
   setDisabledBtn: PropTypes.func.isRequired,
-  setCountdown: PropTypes.func.isRequired,
+  sendSetCountdown: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Timer);

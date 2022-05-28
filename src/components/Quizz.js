@@ -74,21 +74,22 @@ class Quizz extends Component {
       });
     };
 
-    const addPointsToScore = (countdown, question) => {
+    const addPointsToScore = ({ difficulty }) => {
       const ratio = {
         easy: 1,
         medium: 2,
         hard: 3,
       };
-      const difficulty = question.difficulty;
-      const questionScore = 10 + (countdown * ratio[difficulty]);
-      const { score } = this.state;
-      this.setState({
-        score: score + questionScore,
-      },() => {
+      const { countdown } = this.props;
+      const TEN = 10;
+      const questionScore = TEN + (countdown * ratio[difficulty]);
+      // const { score } = this.state;
+      this.setState((prevState) => ({
+        score: prevState.score + questionScore,
+      }), () => {
         const { score } = this.state;
-        const { setScore } = this.props;
-        setScore(score);
+        const { sendSetScore } = this.props;
+        sendSetScore(score);
       });
     };
 
@@ -100,9 +101,9 @@ class Quizz extends Component {
         this.setState((prevState) => ({
           assertions: prevState.assertions + 1,
         }), () => {
-          const { countdown, setSendAssertions } = this.props;
+          const { setSendAssertions } = this.props;
           const { assertions } = this.state;
-          addPointsToScore(countdown, question);
+          addPointsToScore(question);
           setSendAssertions(assertions);
         });
       });
@@ -186,7 +187,7 @@ class Quizz extends Component {
 
   render() {
     const { question, selectedAnAnswer } = this.state;
-    const { score } = this.props
+    const { score } = this.props;
 
     const nextBtn = (
       <button type="button" onClick={ this.nextQuestion } data-testid="btn-next">
@@ -217,7 +218,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setSendAssertions: (state) => dispatch(setSendAssertionsToFeedbackPage(state)),
-  setScore: (state) => dispatch(setScore(state)),
+  sendSetScore: (state) => dispatch(setScore(state)),
 });
 
 Quizz.propTypes = {
@@ -226,8 +227,9 @@ Quizz.propTypes = {
   questions: PropTypes.objectOf(PropTypes.any),
   disabled: PropTypes.bool,
   setSendAssertions: PropTypes.func.isRequired,
-  setScore: PropTypes.func.isRequired,
+  sendSetScore: PropTypes.func.isRequired,
   score: PropTypes.number.isRequired,
+  countdown: PropTypes.number.isRequired,
 };
 
 Quizz.defaultProps = {

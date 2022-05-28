@@ -19,7 +19,7 @@ class FinalScore extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  assertions: state.questions.assertions,
+  assertions: state.player.assertions,
   // score: state.questions.score,
 });
 
@@ -28,7 +28,7 @@ FinalScore.defaultProps = {
 };
 
 FinalScore.propTypes = {
-  assertions: PropTypes.number.isRequired,
+  assertions: PropTypes.number,
   // score: PropTypes.number.isRequired,
 };
 

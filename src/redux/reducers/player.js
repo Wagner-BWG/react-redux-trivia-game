@@ -25,7 +25,7 @@ const playerReducer = (state = INITIAL_STATE, action) => {
     return { ...state,
       assertions: action.payload };
   case SET_SCORE:
-    return { ...state, 
+    return { ...state,
       score: action.payload };
   default:
     return state;
