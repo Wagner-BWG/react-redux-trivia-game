@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Quizz.css';
-import { setSendAssertionsToFeedbackPage } from '../redux/actions';
+import { setSendAssertionsToFeedbackPage, setScore } from '../redux/actions';
 
 class Quizz extends Component {
   constructor() {
@@ -13,6 +13,7 @@ class Quizz extends Component {
       question: <p>Carregando Questão</p>,
       // answers: [],
       assertions: 0,
+      score: 0,
     };
   }
 
@@ -35,7 +36,7 @@ class Quizz extends Component {
 
   nextQuestion = () => {
     const { questionNumber } = this.state;
-    console.log(questionNumber);
+    // console.log(questionNumber);
     let currentQuestion = questionNumber;
     this.setState({
       questionNumber: (currentQuestion += 1),
@@ -43,9 +44,10 @@ class Quizz extends Component {
     }, () => {
       const LIMIT_OF_QUESTIONS_INDEX = 4;
       if (questionNumber >= LIMIT_OF_QUESTIONS_INDEX) {
-        const { history, setSendAssertions } = this.props;
-        const { assertions } = this.state;
-        setSendAssertions(assertions);
+        const { history } = this.props;
+        // const { history, setSendAssertions } = this.props;
+        // const { assertions } = this.state;
+        // setSendAssertions(assertions);
         history.push('/feedback');
         // esse return é pra parar de chamar o resto da função abaixo, já que não vai ter mais questões...pq tava dando erro de pedir caracteristicas de questões que não são existentes.
         return;
@@ -72,14 +74,37 @@ class Quizz extends Component {
       });
     };
 
-    const rightAnswer = ({ target }) => {
+    const addPointsToScore = (countdown, question) => {
+      const ratio = {
+        easy: 1,
+        medium: 2,
+        hard: 3,
+      };
+      const difficulty = question.difficulty;
+      const questionScore = 10 + (countdown * ratio[difficulty]);
+      const { score } = this.state;
+      this.setState({
+        score: score + questionScore,
+      },() => {
+        const { score } = this.state;
+        const { setScore } = this.props;
+        setScore(score);
+      });
+    };
+
+    const rightAnswer = ({ target }, question) => {
       // console.log('resposta certa');
       this.setState({ selectedAnAnswer: true }, () => {
         target.classList.toggle('clicked-correct');
         answerBorders();
         this.setState((prevState) => ({
           assertions: prevState.assertions + 1,
-        }));
+        }), () => {
+          const { countdown, setSendAssertions } = this.props;
+          const { assertions } = this.state;
+          addPointsToScore(countdown, question);
+          setSendAssertions(assertions);
+        });
       });
       // questionNumber += 1;a
     };
@@ -118,7 +143,7 @@ class Quizz extends Component {
         <button
           type="button"
           className="answer-btn co-an"
-          onClick={ rightAnswer }
+          onClick={ (event) => rightAnswer(event, activeQuestion) }
           key={ activeQuestion.correct_answer }
           data-testid="correct-answer"
           disabled={ disabled }
@@ -160,7 +185,8 @@ class Quizz extends Component {
   }
 
   render() {
-    const { question, selectedAnAnswer, assertions } = this.state;
+    const { question, selectedAnAnswer } = this.state;
+    const { score } = this.props
 
     const nextBtn = (
       <button type="button" onClick={ this.nextQuestion } data-testid="btn-next">
@@ -173,7 +199,7 @@ class Quizz extends Component {
         <h2 data-testid="header-score">
           Acertos:
           { ' ' }
-          { assertions }
+          { score }
         </h2>
         { question }
         { selectedAnAnswer ? nextBtn : <p /> }
@@ -185,10 +211,13 @@ class Quizz extends Component {
 const mapStateToProps = (state) => ({
   questions: state.questions,
   disabled: state.timer.disabled,
+  countdown: state.timer.countdown,
+  score: state.player.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setSendAssertions: (state) => dispatch(setSendAssertionsToFeedbackPage(state)),
+  setScore: (state) => dispatch(setScore(state)),
 });
 
 Quizz.propTypes = {
@@ -197,6 +226,8 @@ Quizz.propTypes = {
   questions: PropTypes.objectOf(PropTypes.any),
   disabled: PropTypes.bool,
   setSendAssertions: PropTypes.func.isRequired,
+  setScore: PropTypes.func.isRequired,
+  score: PropTypes.number.isRequired,
 };
 
 Quizz.defaultProps = {

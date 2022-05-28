@@ -5,6 +5,7 @@ export const SET_TIMER = 'SET_TIMER';
 export const NEXT_QUESTION = 'NEXT_QUESTION';
 export const SEND_ASSERTIONS = 'SEND_ASSETIONS';
 export const SET_COUNTDOWN = 'SET_COUNTDOWN';
+export const SET_SCORE = 'SET_SCORE';
 
 export const setUserToken = (payload) => ({
   type: SET_USER_TOKEN,
@@ -33,6 +34,11 @@ export const nextQuestion = (payload) => ({
 
 export const setSendAssertionsToFeedbackPage = (payload) => ({
   type: SEND_ASSERTIONS,
+  payload,
+});
+
+export const setScore = (payload) => ({
+  type: SET_SCORE,
   payload,
 });
 

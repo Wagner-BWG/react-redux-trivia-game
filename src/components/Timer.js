@@ -8,11 +8,10 @@ class Timer extends Component {
     super();
 
     this.state = {
-      // timerCounter: 30,
+      timerCounter: 30,
       // timerCounter: 2,
       disabled: false,
     };
-    this.timerCountdown = this.timerCountdown.bind(this);
   }
 
   componentDidMount() {
@@ -20,22 +19,23 @@ class Timer extends Component {
   }
 
   setTimerCountDown = () => {
-    const { countdown } = this.props;
     const ONE_SECOND = 1000;
     const WHOLE_INTERVAL = 30000;
     // const WHOLE_INTERVAL = 2000;
-    function timerCountdown() {
-      setInterval(() => {
+    this.timerCountdown = setInterval(() => {
       console.log('interval');
-      // this.setState((prevState) => ({
-      //   timerCounter: prevState.timerCounter - 1,
-      // }));
-      setCountdown(countdown - 1);
+      this.setState((prevState) => ({
+        timerCounter: prevState.timerCounter - 1,
+      }), () => {
+        const { timerCounter } = this.state;
+        const { setCountdown } = this.props;
+        // console.log(timerCounter);
+        setCountdown(timerCounter)
+      });
       }, ONE_SECOND);
-    }
 
     setTimeout(() => {
-      clearInterval(timerCountdown);
+      clearInterval(this.timerCountdown);
       this.setState({
         disabled: true,
       }, () => {
@@ -48,20 +48,15 @@ class Timer extends Component {
   }
 
   render() {
-    // const { timerCounter } = this.state;
-    const { countdown } = this.props;
+    const { timerCounter } = this.state;
 
     return (
       <div>
-        <h2>{countdown}</h2>
+        <h2>{timerCounter}</h2>
       </div>
     );
   }
 }
-
-const mapStateToProps = (state) => ({
-  countdown: state.timer.countdown,
-});
 
 const mapDispatchToProps = (dispatch) => ({
   setDisabledBtn: (state) => dispatch(setTimer(state)),
@@ -70,8 +65,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 Timer.propTypes = {
   setDisabledBtn: PropTypes.func.isRequired,
-  countdown: PropTypes.number.isRequired,
   setCountdown: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Timer);
+export default connect(null, mapDispatchToProps)(Timer);
