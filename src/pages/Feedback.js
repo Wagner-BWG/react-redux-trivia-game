@@ -54,7 +54,7 @@ class Feedback extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  numberAssertions: state.questions.assertions,
+  numberAssertions: state.player.assertions,
 });
 
 Feedback.defaultProps = {
