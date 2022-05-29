@@ -43,5 +43,5 @@ Header.propTypes = {
   playerEmailInfo: PropTypes.string.isRequired,
   numberAssertions: PropTypes.number,
 };
-
+//
 export default connect(mapStateToProps)(Header);
