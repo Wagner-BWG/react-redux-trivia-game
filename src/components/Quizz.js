@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Quizz.css';
-import { setSendAssertionsToFeedbackPage, setScore } from '../redux/actions';
+import { setSendAssertionsToFeedbackPage, setScore, setTimer } from '../redux/actions';
 
 class Quizz extends Component {
   constructor() {
@@ -35,9 +35,11 @@ class Quizz extends Component {
   }
 
   nextQuestion = () => {
+    const { resetTimer } = this.props;
     const { questionNumber } = this.state;
     // console.log(questionNumber);
     let currentQuestion = questionNumber;
+    resetTimer();
     this.setState({
       questionNumber: (currentQuestion += 1),
       selectedAnAnswer: false,
@@ -181,7 +183,9 @@ class Quizz extends Component {
           </div>
         </div>
       );
-      this.setState({ question: renderedQuestion });
+      if (disabled) {
+        this.setState({ question: renderedQuestion, selectedAnAnswer: true });
+      } else this.setState({ question: renderedQuestion });
     }
   }
 
@@ -197,7 +201,7 @@ class Quizz extends Component {
 
     return (
       <div>
-        <h2 data-testid="header-score">
+        <h2>
           Acertos:
           { ' ' }
           { score }
@@ -219,6 +223,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setSendAssertions: (state) => dispatch(setSendAssertionsToFeedbackPage(state)),
   sendSetScore: (state) => dispatch(setScore(state)),
+  resetTimer: () => dispatch(setTimer(false)),
 });
 
 Quizz.propTypes = {
@@ -230,6 +235,7 @@ Quizz.propTypes = {
   sendSetScore: PropTypes.func.isRequired,
   score: PropTypes.number.isRequired,
   countdown: PropTypes.number.isRequired,
+  resetTimer: PropTypes.func.isRequired,
 };
 
 Quizz.defaultProps = {
