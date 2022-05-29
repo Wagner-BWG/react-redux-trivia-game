@@ -175,7 +175,7 @@ class Quizz extends Component {
             {`Categoria: ${activeQuestion.category}`}
           </p>
           <p data-testid="question-text">
-            {`Pergunta: ${activeQuestion.question}`}
+            {activeQuestion.question}
           </p>
           <div data-testid="answer-options">
             <p>Respostas:</p>
@@ -191,7 +191,7 @@ class Quizz extends Component {
 
   render() {
     const { question, selectedAnAnswer } = this.state;
-    const { score } = this.props;
+    // const { score } = this.props;
 
     const nextBtn = (
       <button type="button" onClick={ this.nextQuestion } data-testid="btn-next">
@@ -201,11 +201,11 @@ class Quizz extends Component {
 
     return (
       <div>
-        <h2>
+        {/* <h2>
           Acertos:
           { ' ' }
           { score }
-        </h2>
+        </h2> */}
         { question }
         { selectedAnAnswer ? nextBtn : <p /> }
       </div>
@@ -233,7 +233,7 @@ Quizz.propTypes = {
   disabled: PropTypes.bool,
   setSendAssertions: PropTypes.func.isRequired,
   sendSetScore: PropTypes.func.isRequired,
-  score: PropTypes.number.isRequired,
+  // score: PropTypes.number.isRequired,
   countdown: PropTypes.number.isRequired,
   resetTimer: PropTypes.func.isRequired,
 };

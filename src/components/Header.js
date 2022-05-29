@@ -16,7 +16,10 @@ class Header extends Component {
             data-testid="header-profile-picture"
           />
           <h2 data-testid="header-player-name">{playerNameInfo}</h2>
-          <h2 data-testid="header-score">{numberAssertions}</h2>
+          <h2>
+            <span>Pontuação total: </span>
+            <span data-testid="header-score">{numberAssertions}</span>
+          </h2>
         </header>
       </div>
     );
@@ -27,7 +30,7 @@ const mapStateToProps = (state) => ({
   playerNameInfo: state.player.playerName,
   playerEmailInfo: state.player.playerEmail,
   playerURLInfo: state.player.imageURL,
-  numberAssertions: state.questions.assertions,
+  numberAssertions: state.player.score, // state.questions.assertions,
 });
 
 Header.defaultProps = {

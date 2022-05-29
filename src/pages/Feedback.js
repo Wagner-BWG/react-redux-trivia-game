@@ -44,7 +44,7 @@ class Feedback extends Component {
 
   render() {
     const { feedbackMessage } = this.state;
-    const { numberAssertions } = this.props;
+    const { numberAssertions, totalScore } = this.props;
     return (
       <div>
         <Header />
@@ -56,10 +56,15 @@ class Feedback extends Component {
           {' '}
           acertos!
         </h2>
+        <h2>
+          <span>Com um total de </span>
+          <span data-testid="feedback-total-score">{totalScore}</span>
+          <span> pontos!</span>
+        </h2>
         <h2 data-testid="feedback-text">{feedbackMessage}</h2>
 
         <FinalScore />
-// =======
+
         <button
           type="button"
           onClick={ this.redirectToRankingPage }
@@ -81,16 +86,19 @@ class Feedback extends Component {
 
 const mapStateToProps = (state) => ({
   numberAssertions: state.player.assertions,
+  totalScore: state.player.score, // state.questions.assertions,
 });
 
 Feedback.defaultProps = {
   numberAssertions: 0,
+  totalScore: 0,
   push: () => {},
   history: {},
 };
 
 Feedback.propTypes = {
   numberAssertions: PropTypes.number,
+  totalScore: PropTypes.number,
   history: PropTypes.shape(),
   push: PropTypes.func,
 };
