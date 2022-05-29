@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setTimer } from '../redux/actions';
+import { setTimer, setCountdown } from '../redux/actions';
 
 class Timer extends Component {
   constructor() {
@@ -26,7 +26,12 @@ class Timer extends Component {
       console.log('interval');
       this.setState((prevState) => ({
         timerCounter: prevState.timerCounter - 1,
-      }));
+      }), () => {
+        const { timerCounter } = this.state;
+        const { sendSetCountdown } = this.props;
+        // console.log(timerCounter);
+        sendSetCountdown(timerCounter);
+      });
     }, ONE_SECOND);
 
     setTimeout(() => {
@@ -44,6 +49,7 @@ class Timer extends Component {
 
   render() {
     const { timerCounter } = this.state;
+
     return (
       <div>
         <h2>{timerCounter}</h2>
@@ -54,10 +60,12 @@ class Timer extends Component {
 
 const mapDispatchToProps = (dispatch) => ({
   setDisabledBtn: (state) => dispatch(setTimer(state)),
+  sendSetCountdown: (state) => dispatch(setCountdown(state)),
 });
 
 Timer.propTypes = {
   setDisabledBtn: PropTypes.func.isRequired,
+  sendSetCountdown: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(Timer);

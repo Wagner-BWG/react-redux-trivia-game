@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import FinalScore from '../components/FinalScore';
 
 class Feedback extends Component {
   constructor() {
@@ -56,6 +57,9 @@ class Feedback extends Component {
           acertos!
         </h2>
         <h2 data-testid="feedback-text">{feedbackMessage}</h2>
+
+        <FinalScore />
+// =======
         <button
           type="button"
           onClick={ this.redirectToRankingPage }
@@ -76,7 +80,7 @@ class Feedback extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  numberAssertions: state.questions.assertions,
+  numberAssertions: state.player.assertions,
 });
 
 Feedback.defaultProps = {
