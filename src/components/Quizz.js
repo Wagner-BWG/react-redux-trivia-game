@@ -18,8 +18,9 @@ class Quizz extends Component {
   }
 
   componentDidMount() {
-    // const { questions } = this.props;
-    // console.log(questions);
+    const { sendSetScore } = this.props;
+    // console.log('montou quizz');
+    sendSetScore(0);
   }
 
   componentDidUpdate(prevProps) {
