@@ -20,6 +20,7 @@ class Timer extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timerCountdown);
+    clearTimeout(this.timeOut);
   }
 
   setTimerCountDown = () => {
@@ -38,7 +39,7 @@ class Timer extends Component {
       });
     }, ONE_SECOND);
 
-    setTimeout(() => {
+    this.timeOut = setTimeout(() => {
       clearInterval(this.timerCountdown);
       this.setState({
         disabled: true,
