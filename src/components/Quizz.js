@@ -40,22 +40,16 @@ class Quizz extends Component {
     // console.log(questionNumber);
     let currentQuestion = questionNumber;
     resetTimer();
-    this.setState({
-      questionNumber: (currentQuestion += 1),
-      selectedAnAnswer: false,
-    }, () => {
-      const LIMIT_OF_QUESTIONS_INDEX = 4;
-      if (questionNumber >= LIMIT_OF_QUESTIONS_INDEX) {
-        const { history } = this.props;
-        // const { history, setSendAssertions } = this.props;
-        // const { assertions } = this.state;
-        // setSendAssertions(assertions);
-        history.push('/feedback');
-        // esse return é pra parar de chamar o resto da função abaixo, já que não vai ter mais questões...pq tava dando erro de pedir caracteristicas de questões que não são existentes.
-        return;
-      }
-      this.renderQuestion();
-    });
+    const LIMIT_OF_QUESTIONS_INDEX = 4;
+    if (questionNumber === LIMIT_OF_QUESTIONS_INDEX) {
+      const { history } = this.props;
+      history.push('/feedback');
+    } else {
+      this.setState({
+        questionNumber: (currentQuestion += 1),
+        selectedAnAnswer: false,
+      }, () => this.renderQuestion());
+    }
   };
 
   renderQuestion = () => {

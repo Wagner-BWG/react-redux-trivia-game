@@ -3,20 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import md5 from 'crypto-js/md5';
 
-class Header extends Component {
-  componentWillUnmount() {
-    const { playerNameInfo, playerEmailInfo, score } = this.props;
-    const player = { playerNameInfo, playerEmailInfo, score };
-    let oldRanking = JSON.parse(localStorage.getItem('ranking'));
-    if (oldRanking === null) {
-      oldRanking = [];
-    }
-    const newRanking = [...oldRanking, player];
-    console.log(newRanking);
-    newRanking.sort((a, b) => b.score - a.score);
-    localStorage.setItem('ranking', JSON.stringify(newRanking));
-  }
-
+class FeedbackHeader extends Component {
   render() {
     const { playerNameInfo, playerEmailInfo, score } = this.props;
     const hashUserEmail = md5(playerEmailInfo).toString();
@@ -46,15 +33,15 @@ const mapStateToProps = (state) => ({
   score: state.player.score, // state.questions.assertions,
 });
 
-Header.defaultProps = {
+FeedbackHeader.defaultProps = {
   score: 0,
 };
 
-Header.propTypes = {
+FeedbackHeader.propTypes = {
   playerNameInfo: PropTypes.string.isRequired,
   // playerURLInfo: PropTypes.string.isRequired,
   playerEmailInfo: PropTypes.string.isRequired,
   score: PropTypes.number,
 };
 //
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(FeedbackHeader);

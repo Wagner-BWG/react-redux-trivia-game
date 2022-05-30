@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
 import FinalScore from '../components/FinalScore';
+import FeedbackHeader from '../components/FeedbackHeader';
 
 class Feedback extends Component {
   constructor() {
@@ -47,7 +47,7 @@ class Feedback extends Component {
     const { numberAssertions, totalScore } = this.props;
     return (
       <div>
-        <Header />
+        <FeedbackHeader />
         <h1>Feedback</h1>
         <h2>
           Você obteve
