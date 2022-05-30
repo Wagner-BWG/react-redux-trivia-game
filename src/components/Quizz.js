@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './Quizz.css';
-import { setSendAssertionsToFeedbackPage } from '../redux/actions';
+import { setSendAssertionsToFeedbackPage, setScore, setTimer } from '../redux/actions';
 
 class Quizz extends Component {
   constructor() {
@@ -13,6 +13,7 @@ class Quizz extends Component {
       question: <p>Carregando Questão</p>,
       // answers: [],
       assertions: 0,
+      score: 0,
     };
   }
 
@@ -34,24 +35,21 @@ class Quizz extends Component {
   }
 
   nextQuestion = () => {
+    const { resetTimer } = this.props;
     const { questionNumber } = this.state;
-    console.log(questionNumber);
+    // console.log(questionNumber);
     let currentQuestion = questionNumber;
-    this.setState({
-      questionNumber: (currentQuestion += 1),
-      selectedAnAnswer: false,
-    }, () => {
-      const LIMIT_OF_QUESTIONS_INDEX = 4;
-      if (questionNumber >= LIMIT_OF_QUESTIONS_INDEX) {
-        const { history, setSendAssertions } = this.props;
-        const { assertions } = this.state;
-        setSendAssertions(assertions);
-        history.push('/feedback');
-        // esse return é pra parar de chamar o resto da função abaixo, já que não vai ter mais questões...pq tava dando erro de pedir caracteristicas de questões que não são existentes.
-        return;
-      }
-      this.renderQuestion();
-    });
+    resetTimer();
+    const LIMIT_OF_QUESTIONS_INDEX = 4;
+    if (questionNumber === LIMIT_OF_QUESTIONS_INDEX) {
+      const { history } = this.props;
+      history.push('/feedback');
+    } else {
+      this.setState({
+        questionNumber: (currentQuestion += 1),
+        selectedAnAnswer: false,
+      }, () => this.renderQuestion());
+    }
   };
 
   renderQuestion = () => {
@@ -72,14 +70,38 @@ class Quizz extends Component {
       });
     };
 
-    const rightAnswer = ({ target }) => {
+    const addPointsToScore = ({ difficulty }) => {
+      const ratio = {
+        easy: 1,
+        medium: 2,
+        hard: 3,
+      };
+      const { countdown } = this.props;
+      const TEN = 10;
+      const questionScore = TEN + (countdown * ratio[difficulty]);
+      // const { score } = this.state;
+      this.setState((prevState) => ({
+        score: prevState.score + questionScore,
+      }), () => {
+        const { score } = this.state;
+        const { sendSetScore } = this.props;
+        sendSetScore(score);
+      });
+    };
+
+    const rightAnswer = ({ target }, question) => {
       // console.log('resposta certa');
       this.setState({ selectedAnAnswer: true }, () => {
         target.classList.toggle('clicked-correct');
         answerBorders();
         this.setState((prevState) => ({
           assertions: prevState.assertions + 1,
-        }));
+        }), () => {
+          const { setSendAssertions } = this.props;
+          const { assertions } = this.state;
+          addPointsToScore(question);
+          setSendAssertions(assertions);
+        });
       });
       // questionNumber += 1;a
     };
@@ -118,7 +140,7 @@ class Quizz extends Component {
         <button
           type="button"
           className="answer-btn co-an"
-          onClick={ rightAnswer }
+          onClick={ (event) => rightAnswer(event, activeQuestion) }
           key={ activeQuestion.correct_answer }
           data-testid="correct-answer"
           disabled={ disabled }
@@ -147,7 +169,7 @@ class Quizz extends Component {
             {`Categoria: ${activeQuestion.category}`}
           </p>
           <p data-testid="question-text">
-            {`Pergunta: ${activeQuestion.question}`}
+            {activeQuestion.question}
           </p>
           <div data-testid="answer-options">
             <p>Respostas:</p>
@@ -155,12 +177,15 @@ class Quizz extends Component {
           </div>
         </div>
       );
-      this.setState({ question: renderedQuestion });
+      if (disabled) {
+        this.setState({ question: renderedQuestion, selectedAnAnswer: true });
+      } else this.setState({ question: renderedQuestion });
     }
   }
 
   render() {
-    const { question, selectedAnAnswer, assertions } = this.state;
+    const { question, selectedAnAnswer } = this.state;
+    // const { score } = this.props;
 
     const nextBtn = (
       <button type="button" onClick={ this.nextQuestion } data-testid="btn-next">
@@ -170,11 +195,11 @@ class Quizz extends Component {
 
     return (
       <div>
-        <h2>
+        {/* <h2>
           Acertos:
           { ' ' }
-          { assertions }
-        </h2>
+          { score }
+        </h2> */}
         { question }
         { selectedAnAnswer ? nextBtn : <p /> }
       </div>
@@ -185,10 +210,14 @@ class Quizz extends Component {
 const mapStateToProps = (state) => ({
   questions: state.questions,
   disabled: state.timer.disabled,
+  countdown: state.timer.countdown,
+  score: state.player.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setSendAssertions: (state) => dispatch(setSendAssertionsToFeedbackPage(state)),
+  sendSetScore: (state) => dispatch(setScore(state)),
+  resetTimer: () => dispatch(setTimer(false)),
 });
 
 Quizz.propTypes = {
@@ -197,6 +226,10 @@ Quizz.propTypes = {
   questions: PropTypes.objectOf(PropTypes.any),
   disabled: PropTypes.bool,
   setSendAssertions: PropTypes.func.isRequired,
+  sendSetScore: PropTypes.func.isRequired,
+  // score: PropTypes.number.isRequired,
+  countdown: PropTypes.number.isRequired,
+  resetTimer: PropTypes.func.isRequired,
 };
 
 Quizz.defaultProps = {
