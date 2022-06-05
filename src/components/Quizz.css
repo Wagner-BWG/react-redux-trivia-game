@@ -2,6 +2,19 @@
   width: 35%;
 }
 
+.button {
+  background-color: purple;
+  border-left: 2px;
+  border-right: 2px;
+  color: #00c0c0;
+  font-family: Eternal_UI , monospace;
+  font-size: larger;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  transform: skew(-20deg);
+}
+
 .correct-answer {
   border: 3px solid rgb(6, 240, 15);
   width: 35%;
@@ -14,10 +27,17 @@
 
 .clicked-correct {
   background-color: rgb(188, 227, 189);
+  color: green;
   width: 35%;
 }
 
 .clicked-wrong {
   background-color: rgb(234, 179, 179);
+  color: red;
   width: 35%;
+}
+
+@font-face {
+  font-family: Eternal_UI;
+  src: url('../css/EternalUiRegular-1Gap2.ttf') format('truetype');
 }

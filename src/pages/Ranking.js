@@ -14,7 +14,7 @@ class Ranking extends Component {
     const rankedList = ranking.map((player, index) => {
       const hashUserEmail = md5(player.playerEmailInfo).toString();
       return (
-        <tr key={ index }>
+        <tr key={ index } className="ranking-row">
           <td>{ `#${index + 1}` }</td>
           <td>
             <img
@@ -39,18 +39,20 @@ class Ranking extends Component {
   render() {
     const { ranking } = this.state;
     return (
-      <div>
+      <div className="ranking">
         <h1 data-testid="ranking-title">Ranking</h1>
         <button
+          className="button"
           type="button"
           onClick={ this.redirectToHomePage }
           data-testid="btn-go-home"
         >
           Back to home
         </button>
-        <table>
+        <p />
+        <table className="ranking-table">
           <thead>
-            <tr>
+            <tr className="ranking-row">
               <th>Posição</th>
               <th>Avatar</th>
               <th>Player</th>

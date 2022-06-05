@@ -16,6 +16,7 @@ class Login extends Component {
       showSettings: false,
       playerName: '',
       playerEmail: '',
+      currentClass: 'button-deactivated',
     };
   }
 
@@ -49,10 +50,12 @@ class Login extends Component {
     if (isplayerEmailValid === true && playerName.length > 1) {
       this.setState({
         disabled: false,
+        currentClass: 'button',
       });
     } else {
       this.setState({
         disabled: true,
+        currentClass: 'button-deactivated',
       });
     }
   }
@@ -63,7 +66,7 @@ class Login extends Component {
   }
 
   render() {
-    const { disabled, showSettings } = this.state;
+    const { disabled, showSettings, currentClass } = this.state;
     return (
       <div className="App">
         <header>
@@ -71,45 +74,50 @@ class Login extends Component {
           <p>SUA VEZ</p>
         </header>
         <h1>Login</h1>
-        <label htmlFor="playerName">
-          Nome:
-          <input
-            type="text"
-            placeholder="Insira seu nome"
-            data-testid="input-player-name"
-            name="playerName"
-            id="playerName"
-            onChange={ this.handleChange }
-          />
-        </label>
-        <label htmlFor="playerEmail">
-          Email
-          <input
-            type="email"
-            placeholder="Insira seu email"
-            data-testid="input-gravatar-email"
-            name="playerEmail"
-            id="playerEmail"
-            onChange={ this.handleChange }
-          />
-        </label>
-        {/* aqui eu tive que mudar pra onClick,
-        porque eu acho que submit é mais pra form. Só funcionou com onClick */}
-        <button
-          type="submit"
-          data-testid="btn-play"
-          disabled={ disabled }
-          onClick={ this.handleSubmitClick }
-        >
-          Play
-        </button>
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ this.settingsWindow }
-        >
-          Configurações
-        </button>
+        <div className="input-div">
+          <label htmlFor="playerName" className="label">
+            {'Nome: '}
+            <input
+              type="text"
+              placeholder="Insira seu nome"
+              data-testid="input-player-name"
+              name="playerName"
+              id="playerName"
+              onChange={ this.handleChange }
+            />
+          </label>
+          <label htmlFor="playerEmail" className="label">
+            {'Email: '}
+            <input
+              type="email"
+              placeholder="Insira seu email"
+              data-testid="input-gravatar-email"
+              name="playerEmail"
+              id="playerEmail"
+              onChange={ this.handleChange }
+            />
+          </label>
+        </div>
+        <p />
+        <div className="btn-div">
+          <button
+            className={ currentClass }
+            type="submit"
+            data-testid="btn-play"
+            disabled={ disabled }
+            onClick={ this.handleSubmitClick }
+          >
+            Play
+          </button>
+          <button
+            className="button"
+            type="button"
+            data-testid="btn-settings"
+            onClick={ this.settingsWindow }
+          >
+            Configurações
+          </button>
+        </div>
         {showSettings ? <Settings /> : <p />}
       </div>
     );

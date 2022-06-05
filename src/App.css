@@ -1,7 +1,12 @@
 body {
+  background-color: black;
   box-sizing: border-box;
+  color: #00c0c0;
+  font-family: Eternal_UI , monospace;
+  font-size: large;
   margin: 0;
   padding: 0;
+  padding-left: 30px;
 }
 
 .App {
@@ -13,12 +18,71 @@ body {
   pointer-events: none;
 }
 
-.red-border {
-  border: 1px solid red;
+.button {
+  background-color: purple;
+  border-left: 2px;
+  border-right: 2px;
+  color: #00c0c0;
+  font-family: Eternal_UI , monospace;
+  font-size: larger;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  transform: skew(-20deg);
+}
+
+.button-deactivated {
+  background-color: rgb(48, 1, 48);
+  border-left: 2px;
+  border-right: 2px;
+  color: #003838;
+  font-family: Eternal_UI , monospace;
+  font-size: larger;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  transform: skew(-20deg);
+}
+
+.btn-div {
+  display: flex;
+  justify-content: center;
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 .green-border {
   border: 1px solid green;
+}
+
+.input-div {
+  display: flex;
+  justify-content: center;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.ranking {
+  padding-left: 100px;
+}
+
+.red-border {
+  border: 1px solid red;
+}
+
+.ranking-table {
+  align-self: center;
+  border: solid #00c0c0 3px;
+  color: white;
+  font-family: Eternal_UI , monospace;
+  font-size: larger;
+  padding: 5px;
+  padding-left: 10px;
+  transform: skew(5deg);
+}
+
+.ranking-row {
+  background-color: rgb(48, 1, 48);
 }
 
 @media ( prefers-reduced-motion : no-preference ) {
@@ -41,6 +105,17 @@ body {
 
 .App-link {
   color: #61dafb;
+}
+
+.label {
+  border: 3px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@font-face {
+  font-family: Eternal_UI;
+  src: url('./css/EternalUiRegular-1Gap2.ttf') format('truetype');
 }
 
 @keyframes shake {
