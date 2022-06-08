@@ -66,6 +66,7 @@ class Feedback extends Component {
         <FinalScore />
 
         <button
+          className="button"
           type="button"
           onClick={ this.redirectToRankingPage }
           data-testid="btn-ranking"
@@ -73,6 +74,7 @@ class Feedback extends Component {
           Ranking
         </button>
         <button
+          className="button"
           type="button"
           onClick={ this.redirectToHomePage }
           data-testid="btn-play-again"

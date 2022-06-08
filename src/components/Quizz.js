@@ -124,7 +124,7 @@ class Quizz extends Component {
         // <p >
         <button
           type="button"
-          className="answer-btn wr-an"
+          className="answer-btn button wr-an"
           onClick={ wrongAnswer }
           data-testid={ `wrong-answer-${index}` }
           key={ answer }
@@ -140,7 +140,7 @@ class Quizz extends Component {
         // <p>
         <button
           type="button"
-          className="answer-btn co-an"
+          className="answer-btn button co-an"
           onClick={ (event) => rightAnswer(event, activeQuestion) }
           key={ activeQuestion.correct_answer }
           data-testid="correct-answer"
@@ -189,7 +189,12 @@ class Quizz extends Component {
     // const { score } = this.props;
 
     const nextBtn = (
-      <button type="button" onClick={ this.nextQuestion } data-testid="btn-next">
+      <button
+        className="button"
+        type="button"
+        onClick={ this.nextQuestion }
+        data-testid="btn-next"
+      >
         Proxima Pergunta
       </button>
     );
